@@ -1,0 +1,1296 @@
+
+
+!pip install pymongo
+!pip install dataprep
+     
+Requirement already satisfied: pymongo in /usr/local/lib/python3.10/dist-packages (4.5.0)
+Requirement already satisfied: dnspython<3.0.0,>=1.16.0 in /usr/local/lib/python3.10/dist-packages (from pymongo) (2.4.2)
+Requirement already satisfied: dataprep in /usr/local/lib/python3.10/dist-packages (0.4.5)
+Requirement already satisfied: aiohttp<4.0,>=3.6 in /usr/local/lib/python3.10/dist-packages (from dataprep) (3.8.6)
+Requirement already satisfied: bokeh<3,>=2 in /usr/local/lib/python3.10/dist-packages (from dataprep) (2.4.3)
+Requirement already satisfied: dask[array,dataframe,delayed]>=2022.3.0 in /usr/local/lib/python3.10/dist-packages (from dataprep) (2023.8.1)
+Requirement already satisfied: flask<3,>=2 in /usr/local/lib/python3.10/dist-packages (from dataprep) (2.2.5)
+Requirement already satisfied: flask_cors<4.0.0,>=3.0.10 in /usr/local/lib/python3.10/dist-packages (from dataprep) (3.0.10)
+Requirement already satisfied: ipywidgets<8.0,>=7.5 in /usr/local/lib/python3.10/dist-packages (from dataprep) (7.7.1)
+Requirement already satisfied: jinja2<3.1,>=3.0 in /usr/local/lib/python3.10/dist-packages (from dataprep) (3.0.3)
+Requirement already satisfied: jsonpath-ng<2.0,>=1.5 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.6.0)
+Requirement already satisfied: metaphone<0.7,>=0.6 in /usr/local/lib/python3.10/dist-packages (from dataprep) (0.6)
+Requirement already satisfied: nltk<4.0.0,>=3.6.7 in /usr/local/lib/python3.10/dist-packages (from dataprep) (3.8.1)
+Requirement already satisfied: numpy<2.0,>=1.21 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.23.5)
+Requirement already satisfied: pandas<2.0,>=1.1 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.5.3)
+Requirement already satisfied: pydantic<2.0,>=1.6 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.10.13)
+Requirement already satisfied: pydot<2.0.0,>=1.4.2 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.4.2)
+Requirement already satisfied: python-crfsuite==0.9.8 in /usr/local/lib/python3.10/dist-packages (from dataprep) (0.9.8)
+Requirement already satisfied: python-stdnum<2.0,>=1.16 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.19)
+Requirement already satisfied: rapidfuzz<3.0.0,>=2.1.2 in /usr/local/lib/python3.10/dist-packages (from dataprep) (2.15.2)
+Requirement already satisfied: regex<2022.0.0,>=2021.8.3 in /usr/local/lib/python3.10/dist-packages (from dataprep) (2021.11.10)
+Requirement already satisfied: scipy<2.0,>=1.8 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.11.3)
+Requirement already satisfied: sqlalchemy==1.3.24 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.3.24)
+Requirement already satisfied: tqdm<5.0,>=4.48 in /usr/local/lib/python3.10/dist-packages (from dataprep) (4.66.1)
+Requirement already satisfied: varname<0.9.0,>=0.8.1 in /usr/local/lib/python3.10/dist-packages (from dataprep) (0.8.3)
+Requirement already satisfied: wordcloud<2.0,>=1.8 in /usr/local/lib/python3.10/dist-packages (from dataprep) (1.9.2)
+Requirement already satisfied: attrs>=17.3.0 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (23.1.0)
+Requirement already satisfied: charset-normalizer<4.0,>=2.0 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (3.3.0)
+Requirement already satisfied: multidict<7.0,>=4.5 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (6.0.4)
+Requirement already satisfied: async-timeout<5.0,>=4.0.0a3 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (4.0.3)
+Requirement already satisfied: yarl<2.0,>=1.0 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (1.9.2)
+Requirement already satisfied: frozenlist>=1.1.1 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (1.4.0)
+Requirement already satisfied: aiosignal>=1.1.2 in /usr/local/lib/python3.10/dist-packages (from aiohttp<4.0,>=3.6->dataprep) (1.3.1)
+Requirement already satisfied: packaging>=16.8 in /usr/local/lib/python3.10/dist-packages (from bokeh<3,>=2->dataprep) (23.2)
+Requirement already satisfied: pillow>=7.1.0 in /usr/local/lib/python3.10/dist-packages (from bokeh<3,>=2->dataprep) (9.4.0)
+Requirement already satisfied: PyYAML>=3.10 in /usr/local/lib/python3.10/dist-packages (from bokeh<3,>=2->dataprep) (6.0.1)
+Requirement already satisfied: tornado>=5.1 in /usr/local/lib/python3.10/dist-packages (from bokeh<3,>=2->dataprep) (6.3.2)
+Requirement already satisfied: typing-extensions>=3.10.0 in /usr/local/lib/python3.10/dist-packages (from bokeh<3,>=2->dataprep) (4.5.0)
+Requirement already satisfied: click>=8.0 in /usr/local/lib/python3.10/dist-packages (from dask[array,dataframe,delayed]>=2022.3.0->dataprep) (8.1.7)
+Requirement already satisfied: cloudpickle>=1.5.0 in /usr/local/lib/python3.10/dist-packages (from dask[array,dataframe,delayed]>=2022.3.0->dataprep) (2.2.1)
+Requirement already satisfied: fsspec>=2021.09.0 in /usr/local/lib/python3.10/dist-packages (from dask[array,dataframe,delayed]>=2022.3.0->dataprep) (2023.6.0)
+Requirement already satisfied: partd>=1.2.0 in /usr/local/lib/python3.10/dist-packages (from dask[array,dataframe,delayed]>=2022.3.0->dataprep) (1.4.1)
+Requirement already satisfied: toolz>=0.10.0 in /usr/local/lib/python3.10/dist-packages (from dask[array,dataframe,delayed]>=2022.3.0->dataprep) (0.12.0)
+Requirement already satisfied: importlib-metadata>=4.13.0 in /usr/local/lib/python3.10/dist-packages (from dask[array,dataframe,delayed]>=2022.3.0->dataprep) (6.8.0)
+Requirement already satisfied: Werkzeug>=2.2.2 in /usr/local/lib/python3.10/dist-packages (from flask<3,>=2->dataprep) (3.0.0)
+Requirement already satisfied: itsdangerous>=2.0 in /usr/local/lib/python3.10/dist-packages (from flask<3,>=2->dataprep) (2.1.2)
+Requirement already satisfied: Six in /usr/local/lib/python3.10/dist-packages (from flask_cors<4.0.0,>=3.0.10->dataprep) (1.16.0)
+Requirement already satisfied: ipykernel>=4.5.1 in /usr/local/lib/python3.10/dist-packages (from ipywidgets<8.0,>=7.5->dataprep) (5.5.6)
+Requirement already satisfied: ipython-genutils~=0.2.0 in /usr/local/lib/python3.10/dist-packages (from ipywidgets<8.0,>=7.5->dataprep) (0.2.0)
+Requirement already satisfied: traitlets>=4.3.1 in /usr/local/lib/python3.10/dist-packages (from ipywidgets<8.0,>=7.5->dataprep) (5.7.1)
+Requirement already satisfied: widgetsnbextension~=3.6.0 in /usr/local/lib/python3.10/dist-packages (from ipywidgets<8.0,>=7.5->dataprep) (3.6.6)
+Requirement already satisfied: ipython>=4.0.0 in /usr/local/lib/python3.10/dist-packages (from ipywidgets<8.0,>=7.5->dataprep) (7.34.0)
+Requirement already satisfied: jupyterlab-widgets>=1.0.0 in /usr/local/lib/python3.10/dist-packages (from ipywidgets<8.0,>=7.5->dataprep) (3.0.9)
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.10/dist-packages (from jinja2<3.1,>=3.0->dataprep) (2.1.3)
+Requirement already satisfied: ply in /usr/local/lib/python3.10/dist-packages (from jsonpath-ng<2.0,>=1.5->dataprep) (3.11)
+Requirement already satisfied: joblib in /usr/local/lib/python3.10/dist-packages (from nltk<4.0.0,>=3.6.7->dataprep) (1.3.2)
+Requirement already satisfied: python-dateutil>=2.8.1 in /usr/local/lib/python3.10/dist-packages (from pandas<2.0,>=1.1->dataprep) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas<2.0,>=1.1->dataprep) (2023.3.post1)
+Requirement already satisfied: pyparsing>=2.1.4 in /usr/local/lib/python3.10/dist-packages (from pydot<2.0.0,>=1.4.2->dataprep) (3.1.1)
+Requirement already satisfied: asttokens<3.0.0,>=2.0.0 in /usr/local/lib/python3.10/dist-packages (from varname<0.9.0,>=0.8.1->dataprep) (2.4.0)
+Requirement already satisfied: executing<0.9.0,>=0.8.3 in /usr/local/lib/python3.10/dist-packages (from varname<0.9.0,>=0.8.1->dataprep) (0.8.3)
+Requirement already satisfied: pure_eval<1.0.0 in /usr/local/lib/python3.10/dist-packages (from varname<0.9.0,>=0.8.1->dataprep) (0.2.2)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.10/dist-packages (from wordcloud<2.0,>=1.8->dataprep) (3.7.1)
+Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.10/dist-packages (from importlib-metadata>=4.13.0->dask[array,dataframe,delayed]>=2022.3.0->dataprep) (3.17.0)
+Requirement already satisfied: jupyter-client in /usr/local/lib/python3.10/dist-packages (from ipykernel>=4.5.1->ipywidgets<8.0,>=7.5->dataprep) (6.1.12)
+Requirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (67.7.2)
+Requirement already satisfied: jedi>=0.16 in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.19.1)
+Requirement already satisfied: decorator in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (4.4.2)
+Requirement already satisfied: pickleshare in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.7.5)
+Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0 in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (3.0.39)
+Requirement already satisfied: pygments in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (2.16.1)
+Requirement already satisfied: backcall in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.2.0)
+Requirement already satisfied: matplotlib-inline in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.1.6)
+Requirement already satisfied: pexpect>4.3 in /usr/local/lib/python3.10/dist-packages (from ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (4.8.0)
+Requirement already satisfied: locket in /usr/local/lib/python3.10/dist-packages (from partd>=1.2.0->dask[array,dataframe,delayed]>=2022.3.0->dataprep) (1.0.0)
+Requirement already satisfied: notebook>=4.4.1 in /usr/local/lib/python3.10/dist-packages (from widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (6.5.5)
+Requirement already satisfied: idna>=2.0 in /usr/local/lib/python3.10/dist-packages (from yarl<2.0,>=1.0->aiohttp<4.0,>=3.6->dataprep) (3.4)
+Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib->wordcloud<2.0,>=1.8->dataprep) (1.1.1)
+Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.10/dist-packages (from matplotlib->wordcloud<2.0,>=1.8->dataprep) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib->wordcloud<2.0,>=1.8->dataprep) (4.43.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib->wordcloud<2.0,>=1.8->dataprep) (1.4.5)
+Requirement already satisfied: parso<0.9.0,>=0.8.3 in /usr/local/lib/python3.10/dist-packages (from jedi>=0.16->ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.8.3)
+Requirement already satisfied: pyzmq<25,>=17 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (23.2.1)
+Requirement already satisfied: argon2-cffi in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (23.1.0)
+Requirement already satisfied: jupyter-core>=4.6.1 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (5.4.0)
+Requirement already satisfied: nbformat in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (5.9.2)
+Requirement already satisfied: nbconvert>=5 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (6.5.4)
+Requirement already satisfied: nest-asyncio>=1.5 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.5.8)
+Requirement already satisfied: Send2Trash>=1.8.0 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.8.2)
+Requirement already satisfied: terminado>=0.8.3 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.17.1)
+Requirement already satisfied: prometheus-client in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.17.1)
+Requirement already satisfied: nbclassic>=0.4.7 in /usr/local/lib/python3.10/dist-packages (from notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.0.0)
+Requirement already satisfied: ptyprocess>=0.5 in /usr/local/lib/python3.10/dist-packages (from pexpect>4.3->ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.7.0)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.10/dist-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython>=4.0.0->ipywidgets<8.0,>=7.5->dataprep) (0.2.8)
+Requirement already satisfied: platformdirs>=2.5 in /usr/local/lib/python3.10/dist-packages (from jupyter-core>=4.6.1->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (3.11.0)
+Requirement already satisfied: jupyter-server>=1.8 in /usr/local/lib/python3.10/dist-packages (from nbclassic>=0.4.7->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.24.0)
+Requirement already satisfied: notebook-shim>=0.2.3 in /usr/local/lib/python3.10/dist-packages (from nbclassic>=0.4.7->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.2.3)
+Requirement already satisfied: lxml in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (4.9.3)
+Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (4.11.2)
+Requirement already satisfied: bleach in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (6.1.0)
+Requirement already satisfied: defusedxml in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.7.1)
+Requirement already satisfied: entrypoints>=0.2.2 in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.4)
+Requirement already satisfied: jupyterlab-pygments in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.2.2)
+Requirement already satisfied: mistune<2,>=0.8.1 in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.8.4)
+Requirement already satisfied: nbclient>=0.5.0 in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.8.0)
+Requirement already satisfied: pandocfilters>=1.4.1 in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.5.0)
+Requirement already satisfied: tinycss2 in /usr/local/lib/python3.10/dist-packages (from nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.2.1)
+Requirement already satisfied: fastjsonschema in /usr/local/lib/python3.10/dist-packages (from nbformat->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (2.18.1)
+Requirement already satisfied: jsonschema>=2.6 in /usr/local/lib/python3.10/dist-packages (from nbformat->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (4.19.1)
+Requirement already satisfied: argon2-cffi-bindings in /usr/local/lib/python3.10/dist-packages (from argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (21.2.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.10/dist-packages (from jsonschema>=2.6->nbformat->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (2023.7.1)
+Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.10/dist-packages (from jsonschema>=2.6->nbformat->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.30.2)
+Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.10/dist-packages (from jsonschema>=2.6->nbformat->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.10.6)
+Requirement already satisfied: anyio<4,>=3.1.0 in /usr/local/lib/python3.10/dist-packages (from jupyter-server>=1.8->nbclassic>=0.4.7->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (3.7.1)
+Requirement already satisfied: websocket-client in /usr/local/lib/python3.10/dist-packages (from jupyter-server>=1.8->nbclassic>=0.4.7->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.6.4)
+Requirement already satisfied: cffi>=1.0.1 in /usr/local/lib/python3.10/dist-packages (from argon2-cffi-bindings->argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.16.0)
+Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.10/dist-packages (from beautifulsoup4->nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (2.5)
+Requirement already satisfied: webencodings in /usr/local/lib/python3.10/dist-packages (from bleach->nbconvert>=5->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (0.5.1)
+Requirement already satisfied: sniffio>=1.1 in /usr/local/lib/python3.10/dist-packages (from anyio<4,>=3.1.0->jupyter-server>=1.8->nbclassic>=0.4.7->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.3.0)
+Requirement already satisfied: exceptiongroup in /usr/local/lib/python3.10/dist-packages (from anyio<4,>=3.1.0->jupyter-server>=1.8->nbclassic>=0.4.7->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (1.1.3)
+Requirement already satisfied: pycparser in /usr/local/lib/python3.10/dist-packages (from cffi>=1.0.1->argon2-cffi-bindings->argon2-cffi->notebook>=4.4.1->widgetsnbextension~=3.6.0->ipywidgets<8.0,>=7.5->dataprep) (2.21)
+
+import pymongo
+import pandas as pd
+import dataprep.eda.create_report as report
+pd.set_option('display.max_columns', None)
+     
+
+conn = pymongo.MongoClient("mongodb+srv://iam_sandeep_r:rsandeep@cluster0.p8sldxv.mongodb.net/?retryWrites=true&w=majority")
+db = conn['sample_airbnb']
+col = db['listingsAndReviews']
+     
+Primary Table
+
+
+data = []
+for i in col.find( {}, {'_id':1,'listing_url':1,'name':1,'property_type':1,'room_type':1,'bed_type':1,
+                        'minimum_nights':1,'maximum_nights':1,'cancellation_policy':1,'accommodates':1,
+                        'bedrooms':1,'beds':1,'number_of_reviews':1,'bathrooms':1,'price':1,
+                        'cleaning_fee':1,'extra_people':1,'guests_included':1,'images.picture_url':1,
+                        'review_scores.review_scores_rating':1} ):
+    data.append(i)
+
+df_1 = pd.DataFrame(data)
+df_1['images'] = df_1['images'].apply(lambda x: x['picture_url'])
+df_1['review_scores'] = df_1['review_scores'].apply(lambda x: x.get('review_scores_rating',0))
+df_1.head()
+     
+_id	listing_url	name	property_type	room_type	bed_type	minimum_nights	maximum_nights	cancellation_policy	accommodates	bedrooms	beds	number_of_reviews	bathrooms	price	cleaning_fee	extra_people	guests_included	images	review_scores
+0	10006546	https://www.airbnb.com/rooms/10006546	Ribeira Charming Duplex	House	Entire home/apt	Real Bed	2	30	moderate	8	3.0	5.0	51	1.0	80.00	35.00	15.00	6	https://a0.muscache.com/im/pictures/e83e702f-e...	89
+1	10009999	https://www.airbnb.com/rooms/10009999	Horto flat with small garden	Apartment	Entire home/apt	Real Bed	2	1125	flexible	4	1.0	2.0	0	1.0	317.00	187.00	0.00	1	https://a0.muscache.com/im/pictures/5b408b9e-4...	0
+2	1001265	https://www.airbnb.com/rooms/1001265	Ocean View Waikiki Marina w/prkg	Condominium	Entire home/apt	Real Bed	3	365	strict_14_with_grace_period	2	1.0	1.0	96	1.0	115.00	100.00	0.00	1	https://a0.muscache.com/im/pictures/15037101/5...	84
+3	10021707	https://www.airbnb.com/rooms/10021707	Private Room in Bushwick	Apartment	Private room	Real Bed	14	1125	flexible	1	1.0	1.0	1	1.5	40.00	NaN	0.00	1	https://a0.muscache.com/im/pictures/72844c8c-f...	100
+4	10030955	https://www.airbnb.com/rooms/10030955	Apt Linda Vista Lagoa - Rio	Apartment	Private room	Real Bed	1	1125	flexible	2	1.0	1.0	0	2.0	701.00	250.00	0.00	1	https://a0.muscache.com/im/pictures/59c516bd-c...	0
+
+report(df_1)
+     
+Computing quantiles-1-0b63b841a656c4e7abbf2380f738df75:  51%|█████     | 1192/2338 [00:01<00:01, 836.61it/s]                                      /usr/local/lib/python3.10/dist-packages/dask/core.py:121: RuntimeWarning: invalid value encountered in divide
+  return func(*(_execute_task(a, cache) for a in args))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+/usr/local/lib/python3.10/dist-packages/dataprep/eda/distribution/render.py:274: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+  df = df.append(pd.DataFrame({col: [nrows - npresent]}, index=["Others"]))
+DataPrep Report DataPrep Report Overview
+Variables ≡
+_id listing_url name property_type room_type bed_type minimum_nights maximum_nights cancellation_policy accommodates bedrooms beds number_of_reviews bathrooms price cleaning_fee extra_people guests_included images review_scores
+Interactions Correlations Missing Values
+Overview
+Dataset Statistics
+Number of Variables	20
+Number of Rows	5555
+Missing Cells	1559
+Missing Cells (%)	1.4%
+Duplicate Rows	0
+Duplicate Rows (%)	0.0%
+Total Size in Memory	6.1 MB
+Average Row Size in Memory	1.1 KB
+Variable Types	
+Categorical: 15
+Numerical: 5
+Dataset Insights
+cleaning_fee has 1531 (27.56%) missing values	Missing
+accommodates is skewed	Skewed
+bedrooms is skewed	Skewed
+beds is skewed	Skewed
+number_of_reviews is skewed	Skewed
+review_scores is skewed	Skewed
+_id has a high cardinality: 5555 distinct values	High Cardinality
+listing_url has a high cardinality: 5555 distinct values	High Cardinality
+name has a high cardinality: 5538 distinct values	High Cardinality
+maximum_nights has a high cardinality: 140 distinct values	High Cardinality
+price has a high cardinality: 649 distinct values	High Cardinality
+cleaning_fee has a high cardinality: 291 distinct values	High Cardinality
+extra_people has a high cardinality: 138 distinct values	High Cardinality
+images has a high cardinality: 5553 distinct values	High Cardinality
+_id has all distinct values	Unique
+listing_url has all distinct values	Unique
+bedrooms has 496 (8.93%) zeros	Zeros
+number_of_reviews has 1388 (24.99%) zeros	Zeros
+review_scores has 1474 (26.53%) zeros	Zeros
+1
+2
+Variables
+Sort by Reverse order
+_id
+categorical
+
+Approximate Distinct Count	5555
+Approximate Unique (%)	100.0%
+Missing	0
+Missing (%)	0.0%
+Memory Size	403639
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	7.6623
+Standard Deviation	0.5662
+Median	8
+Minimum	5
+Maximum	8
+Sample
+1st row	10006546
+2nd row	10009999
+3rd row	1001265
+4th row	10021707
+5th row	10030955
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	42564
+listing_url
+categorical
+
+Approximate Distinct Count	5555
+Approximate Unique (%)	100.0%
+Missing	0
+Missing (%)	0.0%
+Memory Size	564734
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	36.6623
+Standard Deviation	0.5662
+Median	37
+Minimum	34
+Maximum	37
+Sample
+1st row	https://www.airbnb...
+2nd row	https://www.airbnb...
+3rd row	https://www.airbnb...
+4th row	https://www.airbnb...
+5th row	https://www.airbnb...
+Letter
+Count	122210
+Lowercase Letter	122210
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	42564
+name
+categorical
+
+Approximate Distinct Count	5538
+Approximate Unique (%)	99.7%
+Missing	0
+Missing (%)	0.0%
+Memory Size	636968
+The largest value () is over 2.0 times larger than the second largest value (İstanbul Birden fazla bölümden oluşan bina)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	35.429
+Standard Deviation	12.4277
+Median	35
+Minimum	0
+Maximum	255
+Sample
+1st row	Ribeira Charming D...
+2nd row	Horto flat with sm...
+3rd row	Ocean View Waikiki...
+4th row	Private Room in Bu...
+5th row	Apt Linda Vista La...
+Letter
+Count	157163
+Lowercase Letter	128186
+Space Separator	26925
+Uppercase Letter	28977
+Dash Punctuation	1009
+Decimal Number	3251
+property_type
+categorical
+
+Approximate Distinct Count	36
+Approximate Unique (%)	0.6%
+Missing	0
+Missing (%)	0.0%
+Memory Size	411020
+The largest value (Apartment) is over 5.98 times larger than the second largest value (House)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	8.991
+Standard Deviation	2.6816
+Median	9
+Minimum	3
+Maximum	22
+Sample
+1st row	House
+2nd row	Apartment
+3rd row	Condominium
+4th row	Apartment
+5th row	Apartment
+Letter
+Count	49423
+Lowercase Letter	43852
+Space Separator	498
+Uppercase Letter	5571
+Dash Punctuation	0
+Decimal Number	0
+The top 2 categories (Apartment, House) take over 50.0%
+The largest value (apartment) is over 6.21 times larger than the second largest value (house)
+room_type
+categorical
+
+Approximate Distinct Count	3
+Approximate Unique (%)	0.1%
+Missing	0
+Missing (%)	0.0%
+Memory Size	438119
+The largest value (Entire home/apt) is over 1.76 times larger than the second largest value (Private room)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	13.8693
+Standard Deviation	1.4744
+Median	15
+Minimum	11
+Maximum	15
+Sample
+1st row	Entire home/apt
+2nd row	Entire home/apt
+3rd row	Entire home/apt
+4th row	Private room
+5th row	Private room
+Letter
+Count	68000
+Lowercase Letter	62445
+Space Separator	5555
+Uppercase Letter	5555
+Dash Punctuation	0
+Decimal Number	0
+The top 2 categories (Entire home/apt, Private room) take over 50.0%
+bed_type
+categorical
+
+Approximate Distinct Count	5
+Approximate Unique (%)	0.1%
+Missing	0
+Missing (%)	0.0%
+Memory Size	405582
+The largest value (Real Bed) is over 211.77 times larger than the second largest value (Pull-out Sofa)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	8.0121
+Standard Deviation	0.3857
+Median	8
+Minimum	5
+Maximum	13
+Sample
+1st row	Real Bed
+2nd row	Real Bed
+3rd row	Real Bed
+4th row	Real Bed
+5th row	Real Bed
+Letter
+Count	38949
+Lowercase Letter	27862
+Space Separator	5532
+Uppercase Letter	11087
+Dash Punctuation	26
+Decimal Number	0
+The top 2 categories (Real Bed, Pull-out Sofa) take over 50.0%
+minimum_nights
+categorical
+
+Approximate Distinct Count	45
+Approximate Unique (%)	0.8%
+Missing	0
+Missing (%)	0.0%
+Memory Size	367149
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	1.0934
+Standard Deviation	0.3073
+Median	1
+Minimum	1
+Maximum	4
+Sample
+1st row	2
+2nd row	2
+3rd row	3
+4th row	14
+5th row	1
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	6074
+The top 2 categories (1, 2) take over 50.0%
+maximum_nights
+categorical
+
+Approximate Distinct Count	140
+Approximate Unique (%)	2.5%
+Missing	0
+Missing (%)	0.0%
+Memory Size	379055
+The largest value (1125) is over 8.75 times larger than the second largest value (30)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	3.2367
+Standard Deviation	1.0268
+Median	4
+Minimum	1
+Maximum	10
+Sample
+1st row	30
+2nd row	1125
+3rd row	365
+4th row	1125
+5th row	1125
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	17980
+The top 2 categories (1125, 30) take over 50.0%
+The largest value (1125) is over 8.75 times larger than the second largest value (30)
+cancellation_policy
+categorical
+
+Approximate Distinct Count	5
+Approximate Unique (%)	0.1%
+Missing	0
+Missing (%)	0.0%
+Memory Size	452314
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	16.4247
+Standard Deviation	9.3456
+Median	8
+Minimum	8
+Maximum	27
+Sample
+1st row	moderate
+2nd row	flexible
+3rd row	strict_14_with_gra...
+4th row	flexible
+5th row	flexible
+Letter
+Count	76251
+Lowercase Letter	76251
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	5074
+The top 2 categories (strict_14_with_grace_period, flexible) take over 50.0%
+accommodates
+numerical
+
+Approximate Distinct Count	16
+Approximate Unique (%)	0.3%
+Missing	0
+Missing (%)	0.0%
+Infinite	0
+Infinite (%)	0.0%
+Memory Size	88880
+Mean	3.5059
+Minimum	1
+Maximum	16
+Zeros	0
+Zeros (%)	0.0%
+Negatives	0
+Negatives (%)	0.0%
+accommodates is skewed right (γ1 = 1.8773)
+Stats KDE Plot Normal Q-Q Plot Box Plot
+Quantile Statistics
+Minimum	1
+5-th Percentile	1
+Q1	2
+Median	3
+Q3	4
+95-th Percentile	8
+Maximum	16
+Range	15
+IQR	2
+Descriptive Statistics
+Mean	3.5059
+Standard Deviation	2.297
+Variance	5.2763
+Sum	19475
+Skewness	1.8773
+Kurtosis	5.2079
+Coefficient of Variation	0.6552
+accommodates is not normally distributed (p-value 1.5100960248568855e-17)
+accommodates has 369 outliers
+bedrooms
+numerical
+
+Approximate Distinct Count	13
+Approximate Unique (%)	0.2%
+Missing	5
+Missing (%)	0.1%
+Infinite	0
+Infinite (%)	0.0%
+Memory Size	88800
+Mean	1.4117
+Minimum	0
+Maximum	20
+Zeros	496
+Zeros (%)	8.9%
+Negatives	0
+Negatives (%)	0.0%
+bedrooms is skewed right (γ1 = 3.1004)
+Stats KDE Plot Normal Q-Q Plot Box Plot
+Quantile Statistics
+Minimum	0
+5-th Percentile	0
+Q1	1
+Median	1
+Q3	2
+95-th Percentile	3
+Maximum	20
+Range	20
+IQR	1
+Descriptive Statistics
+Mean	1.4117
+Standard Deviation	1.0419
+Variance	1.0856
+Sum	7835
+Skewness	3.1004
+Kurtosis	28.9114
+Coefficient of Variation	0.7381
+bedrooms is not normally distributed (p-value 2.605133250286024e-22)
+bedrooms has 229 outliers
+beds
+numerical
+
+Approximate Distinct Count	19
+Approximate Unique (%)	0.3%
+Missing	13
+Missing (%)	0.2%
+Infinite	0
+Infinite (%)	0.0%
+Memory Size	88672
+Mean	2.0715
+Minimum	0
+Maximum	25
+Zeros	29
+Zeros (%)	0.5%
+Negatives	0
+Negatives (%)	0.0%
+beds is skewed right (γ1 = 3.0013)
+Stats KDE Plot Normal Q-Q Plot Box Plot
+Quantile Statistics
+Minimum	0
+5-th Percentile	1
+Q1	1
+Median	2
+Q3	3
+95-th Percentile	5
+Maximum	25
+Range	25
+IQR	2
+Descriptive Statistics
+Mean	2.0715
+Standard Deviation	1.6197
+Variance	2.6233
+Sum	11480
+Skewness	3.0013
+Kurtosis	17.7459
+Coefficient of Variation	0.7819
+beds is not normally distributed (p-value 6.819426832746394e-20)
+beds has 115 outliers
+number_of_reviews
+numerical
+
+Approximate Distinct Count	259
+Approximate Unique (%)	4.7%
+Missing	0
+Missing (%)	0.0%
+Infinite	0
+Infinite (%)	0.0%
+Memory Size	88880
+Mean	27.6065
+Minimum	0
+Maximum	533
+Zeros	1388
+Zeros (%)	25.0%
+Negatives	0
+Negatives (%)	0.0%
+number_of_reviews is skewed right (γ1 = 3.1971)
+Stats KDE Plot Normal Q-Q Plot Box Plot
+Quantile Statistics
+Minimum	0
+5-th Percentile	0
+Q1	1
+Median	5
+Q3	32
+95-th Percentile	130
+Maximum	533
+Range	533
+IQR	31
+Descriptive Statistics
+Mean	27.6065
+Standard Deviation	49.7984
+Variance	2479.8782
+Sum	153354
+Skewness	3.1971
+Kurtosis	14.2024
+Coefficient of Variation	1.8039
+number_of_reviews is not normally distributed (p-value 5.458296208465806e-24)
+number_of_reviews has 633 outliers
+bathrooms
+categorical
+
+Approximate Distinct Count	17
+Approximate Unique (%)	0.3%
+Missing	10
+Missing (%)	0.2%
+Memory Size	377061
+The largest value (1.0) is over 5.43 times larger than the second largest value (2.0)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	3.0002
+Standard Deviation	0.01343
+Median	3
+Minimum	3
+Maximum	4
+Sample
+1st row	1.0
+2nd row	1.0
+3rd row	1.0
+4th row	1.5
+5th row	2.0
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	11091
+The top 2 categories (1.0, 2.0) take over 50.0%
+The largest value (10) is over 5.43 times larger than the second largest value (20)
+price
+categorical
+
+Approximate Distinct Count	649
+Approximate Unique (%)	11.7%
+Missing	0
+Missing (%)	0.0%
+Memory Size	392448
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	5.6477
+Standard Deviation	0.5584
+Median	6
+Minimum	4
+Maximum	8
+Sample
+1st row	80.00
+2nd row	317.00
+3rd row	115.00
+4th row	40.00
+5th row	701.00
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	25818
+cleaning_fee
+categorical
+
+Approximate Distinct Count	291
+Approximate Unique (%)	7.2%
+Missing	1531
+Missing (%)	27.6%
+Memory Size	282633
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	5.2368
+Standard Deviation	0.6465
+Median	5
+Minimum	4
+Maximum	7
+Sample
+1st row	35.00
+2nd row	187.00
+3rd row	100.00
+4th row	250.00
+5th row	135.00
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	17049
+extra_people
+categorical
+
+Approximate Distinct Count	138
+Approximate Unique (%)	2.5%
+Missing	0
+Missing (%)	0.0%
+Memory Size	385932
+The largest value (0.00) is over 10.63 times larger than the second largest value (10.00)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	4.4747
+Standard Deviation	0.6189
+Median	4
+Minimum	4
+Maximum	7
+Sample
+1st row	15.00
+2nd row	0.00
+3rd row	0.00
+4th row	0.00
+5th row	0.00
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	19302
+The top 2 categories (0.00, 10.00) take over 50.0%
+The largest value (000) is over 10.63 times larger than the second largest value (1000)
+guests_included
+categorical
+
+Approximate Distinct Count	14
+Approximate Unique (%)	0.3%
+Missing	0
+Missing (%)	0.0%
+Memory Size	366662
+The largest value (1) is over 3.09 times larger than the second largest value (2)
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	1.0058
+Standard Deviation	0.07569
+Median	1
+Minimum	1
+Maximum	2
+Sample
+1st row	6
+2nd row	1
+3rd row	1
+4th row	1
+5th row	1
+Letter
+Count	0
+Lowercase Letter	0
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	0
+Decimal Number	5587
+The top 2 categories (1, 2) take over 50.0%
+The largest value (1) is over 3.09 times larger than the second largest value (2)
+images
+categorical
+
+Approximate Distinct Count	5553
+Approximate Unique (%)	100.0%
+Missing	0
+Missing (%)	0.0%
+Memory Size	868247
+Stats Pie Chart Word Frequency Word Length
+Length
+Mean	91.3001
+Standard Deviation	4.1721
+Median	93
+Minimum	80
+Maximum	116
+Sample
+1st row	https://a0.muscach...
+2nd row	https://a0.muscach...
+3rd row	https://a0.muscach...
+4th row	https://a0.muscach...
+5th row	https://a0.muscach...
+Letter
+Count	309255
+Lowercase Letter	309255
+Space Separator	0
+Uppercase Letter	0
+Dash Punctuation	18288
+Decimal Number	110847
+review_scores
+numerical
+
+Approximate Distinct Count	42
+Approximate Unique (%)	0.8%
+Missing	0
+Missing (%)	0.0%
+Infinite	0
+Infinite (%)	0.0%
+Memory Size	88880
+Mean	68.3957
+Minimum	0
+Maximum	100
+Zeros	1474
+Zeros (%)	26.5%
+Negatives	0
+Negatives (%)	0.0%
+review_scores is skewed left (γ1 = -0.9743)
+Stats KDE Plot Normal Q-Q Plot Box Plot
+Quantile Statistics
+Minimum	0
+5-th Percentile	0
+Q1	0
+Median	92
+Q3	98
+95-th Percentile	100
+Maximum	100
+Range	100
+IQR	98
+Descriptive Statistics
+Mean	68.3957
+Standard Deviation	41.8298
+Variance	1749.735
+Sum	379938
+Skewness	-0.9743
+Kurtosis	-0.9664
+Coefficient of Variation	0.6116
+review_scores is not normally distributed (p-value 3.758742942698013e-15)
+Interactions
+Correlations
+Pearson Spearman KendallTau
+Missing Values
+Bar Chart Spectrum Heat Map Dendrogram
+Report generated with DataPrep
+
+
+df_1.isnull().sum()
+     
+_id                       0
+listing_url               0
+name                      0
+property_type             0
+room_type                 0
+bed_type                  0
+minimum_nights            0
+maximum_nights            0
+cancellation_policy       0
+accommodates              0
+bedrooms                  5
+beds                     13
+number_of_reviews         0
+bathrooms                10
+price                     0
+cleaning_fee           1531
+extra_people              0
+guests_included           0
+images                    0
+review_scores             0
+dtype: int64
+
+df_1['bedrooms'].fillna(0, inplace=True)
+df_1['beds'].fillna(0, inplace=True)
+df_1['bathrooms'].fillna(0, inplace=True)
+df_1['cleaning_fee'].fillna('Not Specified', inplace=True)
+df_1.isnull().sum()
+     
+_id                    0
+listing_url            0
+name                   0
+property_type          0
+room_type              0
+bed_type               0
+minimum_nights         0
+maximum_nights         0
+cancellation_policy    0
+accommodates           0
+bedrooms               0
+beds                   0
+number_of_reviews      0
+bathrooms              0
+price                  0
+cleaning_fee           0
+extra_people           0
+guests_included        0
+images                 0
+review_scores          0
+dtype: int64
+
+df_1.dtypes
+     
+_id                     object
+listing_url             object
+name                    object
+property_type           object
+room_type               object
+bed_type                object
+minimum_nights          object
+maximum_nights          object
+cancellation_policy     object
+accommodates             int64
+bedrooms               float64
+beds                   float64
+number_of_reviews        int64
+bathrooms               object
+price                   object
+cleaning_fee            object
+extra_people            object
+guests_included         object
+images                  object
+review_scores            int64
+dtype: object
+
+df_1['minimum_nights'] = df_1['minimum_nights'].astype(int)
+df_1['maximum_nights'] = df_1['maximum_nights'].astype(int)
+df_1['bedrooms'] = df_1['bedrooms'].astype(int)
+df_1['beds'] = df_1['beds'].astype(int)
+df_1['bathrooms'] = df_1['bathrooms'].astype(str).astype(float)
+df_1['price'] = df_1['price'].astype(str).astype(float).astype(int)
+df_1['cleaning_fee'] = df_1['cleaning_fee'].apply(lambda x: int(float(str(x))) if x != 'Not Specified' else 'Not Specified')
+df_1['extra_people'] = df_1['extra_people'].astype(str).astype(float).astype(int)
+df_1['guests_included'] = df_1['guests_included'].astype(str).astype(int)
+     
+
+df_1.dtypes
+     
+_id                     object
+listing_url             object
+name                    object
+property_type           object
+room_type               object
+bed_type                object
+minimum_nights           int64
+maximum_nights           int64
+cancellation_policy     object
+accommodates             int64
+bedrooms                 int64
+beds                     int64
+number_of_reviews        int64
+bathrooms              float64
+price                    int64
+cleaning_fee            object
+extra_people             int64
+guests_included          int64
+images                  object
+review_scores            int64
+dtype: object
+
+df_1.describe().T
+     
+count	mean	std	min	25%	50%	75%	max
+minimum_nights	5555.0	5.564356e+00	2.261386e+01	1.0	1.0	2.0	3.0	1.250000e+03
+maximum_nights	5555.0	1.382776e+06	5.256920e+07	1.0	59.0	1125.0	1125.0	2.147484e+09
+accommodates	5555.0	3.505851e+00	2.297019e+00	1.0	2.0	3.0	4.0	1.600000e+01
+bedrooms	5555.0	1.410441e+00	1.042334e+00	0.0	1.0	1.0	2.0	2.000000e+01
+beds	5555.0	2.066607e+00	1.620858e+00	0.0	1.0	2.0	3.0	2.500000e+01
+number_of_reviews	5555.0	2.760648e+01	4.979838e+01	0.0	1.0	5.0	32.0	5.330000e+02
+bathrooms	5555.0	1.288839e+00	7.037643e-01	0.0	1.0	1.0	1.0	1.600000e+01
+price	5555.0	2.787662e+02	8.422155e+02	9.0	70.0	129.0	280.0	4.884200e+04
+extra_people	5555.0	2.279190e+01	6.933151e+01	0.0	0.0	0.0	20.0	2.346000e+03
+guests_included	5555.0	1.747435e+00	1.487352e+00	1.0	1.0	1.0	2.0	1.600000e+01
+review_scores	5555.0	6.839568e+01	4.182983e+01	0.0	0.0	92.0	98.0	1.000000e+02
+
+df_1.head(2)
+     
+_id	listing_url	name	property_type	room_type	bed_type	minimum_nights	maximum_nights	cancellation_policy	accommodates	bedrooms	beds	number_of_reviews	bathrooms	price	cleaning_fee	extra_people	guests_included	images	review_scores
+0	10006546	https://www.airbnb.com/rooms/10006546	Ribeira Charming Duplex	House	Entire home/apt	Real Bed	2	30	moderate	8	3	5	51	1.0	80	35	15	6	https://a0.muscache.com/im/pictures/e83e702f-e...	89
+1	10009999	https://www.airbnb.com/rooms/10009999	Horto flat with small garden	Apartment	Entire home/apt	Real Bed	2	1125	flexible	4	1	2	0	1.0	317	187	0	1	https://a0.muscache.com/im/pictures/5b408b9e-4...	0
+Host
+
+
+host = []
+for i in col.find( {}, {'_id':1, 'host':1}):
+    host.append(i)
+
+df_host = pd.DataFrame(host)
+host_keys = list(df_host.iloc[0,1].keys())
+host_keys.remove('host_about')
+
+for i in host_keys:
+    if i == 'host_response_time':
+        df_host['host_response_time'] = df_host['host'].apply(lambda x: x['host_response_time'] if 'host_response_time' in x else 'Not Specified')
+    else:
+        df_host[i] = df_host['host'].apply(lambda x: x[i] if i in x and x[i]!='' else 'Not Specified')
+
+df_host.drop(columns=['host'], inplace=True)
+df_host.head()
+     
+_id	host_id	host_url	host_name	host_location	host_response_time	host_thumbnail_url	host_picture_url	host_neighbourhood	host_response_rate	host_is_superhost	host_has_profile_pic	host_identity_verified	host_listings_count	host_total_listings_count	host_verifications
+0	10006546	51399391	https://www.airbnb.com/users/show/51399391	Ana&Gonçalo	Porto, Porto District, Portugal	within an hour	https://a0.muscache.com/im/pictures/fab79f25-2...	https://a0.muscache.com/im/pictures/fab79f25-2...	Not Specified	100	False	True	True	3	3	[email, phone, reviews, jumio, offline_governm...
+1	10009999	1282196	https://www.airbnb.com/users/show/1282196	Ynaie	Rio de Janeiro, State of Rio de Janeiro, Brazil	Not Specified	https://a0.muscache.com/im/pictures/9681e3cc-4...	https://a0.muscache.com/im/pictures/9681e3cc-4...	Jardim Botânico	Not Specified	False	True	False	1	1	[email, phone, facebook]
+2	1001265	5448114	https://www.airbnb.com/users/show/5448114	David	Honolulu, Hawaii, United States	within an hour	https://a0.muscache.com/im/users/5448114/profi...	https://a0.muscache.com/im/users/5448114/profi...	Waikiki	98	False	True	False	18	18	[email, phone, reviews, kba]
+3	10021707	11275734	https://www.airbnb.com/users/show/11275734	Josh	New York, New York, United States	Not Specified	https://a0.muscache.com/im/users/11275734/prof...	https://a0.muscache.com/im/users/11275734/prof...	Bushwick	Not Specified	False	True	True	1	1	[email, phone, reviews, kba]
+4	10030955	51496939	https://www.airbnb.com/users/show/51496939	Livia	BR	Not Specified	https://a0.muscache.com/im/pictures/b7911710-9...	https://a0.muscache.com/im/pictures/b7911710-9...	Lagoa	Not Specified	False	True	False	1	1	[email, phone, jumio, government_id]
+
+df_host['host_is_superhost'] = df_host['host_is_superhost'].map({False:'No',True:'Yes'})
+df_host['host_has_profile_pic'] = df_host['host_has_profile_pic'].map({False:'No',True:'Yes'})
+df_host['host_identity_verified'] = df_host['host_identity_verified'].map({False:'No',True:'Yes'})
+df_host.head()
+     
+_id	host_id	host_url	host_name	host_location	host_response_time	host_thumbnail_url	host_picture_url	host_neighbourhood	host_response_rate	host_is_superhost	host_has_profile_pic	host_identity_verified	host_listings_count	host_total_listings_count	host_verifications
+0	10006546	51399391	https://www.airbnb.com/users/show/51399391	Ana&Gonçalo	Porto, Porto District, Portugal	within an hour	https://a0.muscache.com/im/pictures/fab79f25-2...	https://a0.muscache.com/im/pictures/fab79f25-2...	Not Specified	100	No	Yes	Yes	3	3	[email, phone, reviews, jumio, offline_governm...
+1	10009999	1282196	https://www.airbnb.com/users/show/1282196	Ynaie	Rio de Janeiro, State of Rio de Janeiro, Brazil	Not Specified	https://a0.muscache.com/im/pictures/9681e3cc-4...	https://a0.muscache.com/im/pictures/9681e3cc-4...	Jardim Botânico	Not Specified	No	Yes	No	1	1	[email, phone, facebook]
+2	1001265	5448114	https://www.airbnb.com/users/show/5448114	David	Honolulu, Hawaii, United States	within an hour	https://a0.muscache.com/im/users/5448114/profi...	https://a0.muscache.com/im/users/5448114/profi...	Waikiki	98	No	Yes	No	18	18	[email, phone, reviews, kba]
+3	10021707	11275734	https://www.airbnb.com/users/show/11275734	Josh	New York, New York, United States	Not Specified	https://a0.muscache.com/im/users/11275734/prof...	https://a0.muscache.com/im/users/11275734/prof...	Bushwick	Not Specified	No	Yes	Yes	1	1	[email, phone, reviews, kba]
+4	10030955	51496939	https://www.airbnb.com/users/show/51496939	Livia	BR	Not Specified	https://a0.muscache.com/im/pictures/b7911710-9...	https://a0.muscache.com/im/pictures/b7911710-9...	Lagoa	Not Specified	No	Yes	No	1	1	[email, phone, jumio, government_id]
+
+df_host.isnull().sum()
+     
+_id                          0
+host_id                      0
+host_url                     0
+host_name                    0
+host_location                0
+host_response_time           0
+host_thumbnail_url           0
+host_picture_url             0
+host_neighbourhood           0
+host_response_rate           0
+host_is_superhost            0
+host_has_profile_pic         0
+host_identity_verified       0
+host_listings_count          0
+host_total_listings_count    0
+host_verifications           0
+dtype: int64
+
+df_host.dtypes
+     
+_id                          object
+host_id                      object
+host_url                     object
+host_name                    object
+host_location                object
+host_response_time           object
+host_thumbnail_url           object
+host_picture_url             object
+host_neighbourhood           object
+host_response_rate           object
+host_is_superhost            object
+host_has_profile_pic         object
+host_identity_verified       object
+host_listings_count           int64
+host_total_listings_count     int64
+host_verifications           object
+dtype: object
+Address
+
+
+address = []
+for i in col.find( {}, {'_id':1, 'address':1}):
+    address.append(i)
+
+df_address = pd.DataFrame(address)
+address_keys = list(df_address.iloc[0,1].keys())
+
+for i in address_keys:
+    if i == 'location':
+        df_address['location_type'] = df_address['address'].apply(lambda x: x['location']['type'])
+        df_address['longitude'] = df_address['address'].apply(lambda x: x['location']['coordinates'][0])
+        df_address['latitude'] = df_address['address'].apply(lambda x: x['location']['coordinates'][1])
+        df_address['is_location_exact'] = df_address['address'].apply(lambda x: x['location']['is_location_exact'])
+    else:
+        df_address[i] = df_address['address'].apply(lambda x: x[i] if x[i]!='' else 'Not Specified')
+
+df_address.drop(columns=['address'], inplace=True)
+df_address.head()
+     
+_id	street	suburb	government_area	market	country	country_code	location_type	longitude	latitude	is_location_exact
+0	10006546	Porto, Porto, Portugal	Not Specified	Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, V...	Porto	Portugal	PT	Point	-8.613080	41.141300	False
+1	10009999	Rio de Janeiro, Rio de Janeiro, Brazil	Jardim Botânico	Jardim Botânico	Rio De Janeiro	Brazil	BR	Point	-43.230750	-22.966254	True
+2	1001265	Honolulu, HI, United States	Oʻahu	Primary Urban Center	Oahu	United States	US	Point	-157.839190	21.286340	True
+3	10021707	Brooklyn, NY, United States	Brooklyn	Bushwick	New York	United States	US	Point	-73.936150	40.697910	True
+4	10030955	Rio de Janeiro, Rio de Janeiro, Brazil	Lagoa	Lagoa	Rio De Janeiro	Brazil	BR	Point	-43.205047	-22.971951	True
+
+df_address['is_location_exact'] = df_address['is_location_exact'].map({False:'No',True:'Yes'})
+df_address.head()
+     
+_id	street	suburb	government_area	market	country	country_code	location_type	longitude	latitude	is_location_exact
+0	10006546	Porto, Porto, Portugal	Not Specified	Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, V...	Porto	Portugal	PT	Point	-8.613080	41.141300	No
+1	10009999	Rio de Janeiro, Rio de Janeiro, Brazil	Jardim Botânico	Jardim Botânico	Rio De Janeiro	Brazil	BR	Point	-43.230750	-22.966254	Yes
+2	1001265	Honolulu, HI, United States	Oʻahu	Primary Urban Center	Oahu	United States	US	Point	-157.839190	21.286340	Yes
+3	10021707	Brooklyn, NY, United States	Brooklyn	Bushwick	New York	United States	US	Point	-73.936150	40.697910	Yes
+4	10030955	Rio de Janeiro, Rio de Janeiro, Brazil	Lagoa	Lagoa	Rio De Janeiro	Brazil	BR	Point	-43.205047	-22.971951	Yes
+
+df_address.isnull().sum()
+     
+_id                  0
+street               0
+suburb               0
+government_area      0
+market               0
+country              0
+country_code         0
+location_type        0
+longitude            0
+latitude             0
+is_location_exact    0
+dtype: int64
+
+df_address.dtypes
+     
+_id                   object
+street                object
+suburb                object
+government_area       object
+market                object
+country               object
+country_code          object
+location_type         object
+longitude            float64
+latitude             float64
+is_location_exact     object
+dtype: object
+Availability
+
+
+availability = []
+for i in col.find( {}, {'_id':1, 'availability':1}):
+    availability.append(i)
+
+df_availability = pd.DataFrame(availability)
+availability_keys = list(df_availability.iloc[0,1].keys())
+
+for i in availability_keys:
+    df_availability['availability_30'] = df_availability['availability'].apply(lambda x: x['availability_30'])
+    df_availability['availability_60'] = df_availability['availability'].apply(lambda x: x['availability_60'])
+    df_availability['availability_90'] = df_availability['availability'].apply(lambda x: x['availability_90'])
+    df_availability['availability_365'] = df_availability['availability'].apply(lambda x: x['availability_365'])
+
+df_availability.drop(columns=['availability'], inplace=True)
+df_availability.head()
+     
+_id	availability_30	availability_60	availability_90	availability_365
+0	10006546	28	47	74	239
+1	10009999	0	0	0	0
+2	1001265	16	46	76	343
+3	10021707	0	0	0	0
+4	10030955	28	58	88	363
+
+df_availability.isnull().sum()
+     
+_id                 0
+availability_30     0
+availability_60     0
+availability_90     0
+availability_365    0
+dtype: int64
+
+df_availability.dtypes
+     
+_id                 object
+availability_30      int64
+availability_60      int64
+availability_90      int64
+availability_365     int64
+dtype: object
+Amenities
+
+
+def amenities_sort(x):
+    a = x
+    a.sort(reverse=False)
+    return a
+
+amenities = []
+for i in col.find( {}, {'_id':1, 'amenities':1}):
+    amenities.append(i)
+
+df_amenities = pd.DataFrame(amenities)
+df_amenities['amenities'] = df_amenities['amenities'].apply(lambda x: amenities_sort(x))
+df_amenities.head()
+     
+_id	amenities
+0	10006546	[Bed linens, Buzzer/wireless intercom, Cable T...
+1	10009999	[Buzzer/wireless intercom, Essentials, Family/...
+2	1001265	[Air conditioning, BBQ grill, Bed linens, Cabl...
+3	10021707	[Air conditioning, Buzzer/wireless intercom, C...
+4	10030955	[24-hour check-in, Air conditioning, Buzzer/wi...
+
+df_amenities.isnull().sum()
+     
+_id          0
+amenities    0
+dtype: int64
+
+df_amenities.dtypes
+     
+_id          object
+amenities    object
+dtype: object
+
+df = pd.merge(df_1, df_host, on='_id')
+df = pd.merge(df, df_address, on='_id')
+df = pd.merge(df, df_availability, on='_id')
+df = pd.merge(df, df_amenities, on='_id')
+df.head(3)
+     
+_id	listing_url	name	property_type	room_type	bed_type	minimum_nights	maximum_nights	cancellation_policy	accommodates	bedrooms	beds	number_of_reviews	bathrooms	price	cleaning_fee	extra_people	guests_included	images	review_scores	host_id	host_url	host_name	host_location	host_response_time	host_thumbnail_url	host_picture_url	host_neighbourhood	host_response_rate	host_is_superhost	host_has_profile_pic	host_identity_verified	host_listings_count	host_total_listings_count	host_verifications	street	suburb	government_area	market	country	country_code	location_type	longitude	latitude	is_location_exact	availability_30	availability_60	availability_90	availability_365	amenities
+0	10006546	https://www.airbnb.com/rooms/10006546	Ribeira Charming Duplex	House	Entire home/apt	Real Bed	2	30	moderate	8	3	5	51	1.0	80	35	15	6	https://a0.muscache.com/im/pictures/e83e702f-e...	89	51399391	https://www.airbnb.com/users/show/51399391	Ana&Gonçalo	Porto, Porto District, Portugal	within an hour	https://a0.muscache.com/im/pictures/fab79f25-2...	https://a0.muscache.com/im/pictures/fab79f25-2...	Not Specified	100	No	Yes	Yes	3	3	[email, phone, reviews, jumio, offline_governm...	Porto, Porto, Portugal	Not Specified	Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, V...	Porto	Portugal	PT	Point	-8.61308	41.141300	No	28	47	74	239	[Bed linens, Buzzer/wireless intercom, Cable T...
+1	10009999	https://www.airbnb.com/rooms/10009999	Horto flat with small garden	Apartment	Entire home/apt	Real Bed	2	1125	flexible	4	1	2	0	1.0	317	187	0	1	https://a0.muscache.com/im/pictures/5b408b9e-4...	0	1282196	https://www.airbnb.com/users/show/1282196	Ynaie	Rio de Janeiro, State of Rio de Janeiro, Brazil	Not Specified	https://a0.muscache.com/im/pictures/9681e3cc-4...	https://a0.muscache.com/im/pictures/9681e3cc-4...	Jardim Botânico	Not Specified	No	Yes	No	1	1	[email, phone, facebook]	Rio de Janeiro, Rio de Janeiro, Brazil	Jardim Botânico	Jardim Botânico	Rio De Janeiro	Brazil	BR	Point	-43.23075	-22.966254	Yes	0	0	0	0	[Buzzer/wireless intercom, Essentials, Family/...
+2	1001265	https://www.airbnb.com/rooms/1001265	Ocean View Waikiki Marina w/prkg	Condominium	Entire home/apt	Real Bed	3	365	strict_14_with_grace_period	2	1	1	96	1.0	115	100	0	1	https://a0.muscache.com/im/pictures/15037101/5...	84	5448114	https://www.airbnb.com/users/show/5448114	David	Honolulu, Hawaii, United States	within an hour	https://a0.muscache.com/im/users/5448114/profi...	https://a0.muscache.com/im/users/5448114/profi...	Waikiki	98	No	Yes	No	18	18	[email, phone, reviews, kba]	Honolulu, HI, United States	Oʻahu	Primary Urban Center	Oahu	United States	US	Point	-157.83919	21.286340	Yes	16	46	76	343	[Air conditioning, BBQ grill, Bed linens, Cabl...
+
+# download as csv
+df.to_csv('airbnb.csv', index=False)
+     
+
+df.dtypes
+     
+_id                           object
+listing_url                   object
+name                          object
+property_type                 object
+room_type                     object
+bed_type                      object
+minimum_nights                 int64
+maximum_nights                 int64
+cancellation_policy           object
+accommodates                   int64
+bedrooms                       int64
+beds                           int64
+number_of_reviews              int64
+bathrooms                    float64
+price                          int64
+cleaning_fee                  object
+extra_people                   int64
+guests_included                int64
+images                        object
+review_scores                  int64
+host_id                       object
+host_url                      object
+host_name                     object
+host_location                 object
+host_response_time            object
+host_thumbnail_url            object
+host_picture_url              object
+host_neighbourhood            object
+host_response_rate            object
+host_is_superhost             object
+host_has_profile_pic          object
+host_identity_verified        object
+host_listings_count            int64
+host_total_listings_count      int64
+host_verifications            object
+street                        object
+suburb                        object
+government_area               object
+market                        object
+country                       object
+country_code                  object
+location_type                 object
+longitude                    float64
+latitude                     float64
+is_location_exact             object
+availability_30                int64
+availability_60                int64
+availability_90                int64
+availability_365               int64
+amenities                     object
+dtype: object
